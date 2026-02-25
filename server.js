@@ -37,13 +37,25 @@ function normalizeRow({ code, description, rate, billing_class, negotiated_type,
   };
 }
 
+function normalizeKey(key) {
+  return key.toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
 function findField(row, aliases) {
   const keys = Object.keys(row);
   for (const key of keys) {
-    const norm = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const norm = normalizeKey(key);
     if (aliases.some(a => norm.includes(a))) {
       return row[key];
     }
+  }
+  return null;
+}
+
+function firstNumeric(row) {
+  for (const val of Object.values(row)) {
+    const num = cleanNumber(val);
+    if (num !== null) return num;
   }
   return null;
 }
@@ -54,35 +66,23 @@ function ingestCSV(buffer) {
   const out = {};
   for (const row of records) {
     const code =
-      findField(row, ['cpt', 'code']) ||
-      row.code ||
-      row.cpt ||
-      row.cpt_code;
+      findField(row, ['cpt', 'cptcode', 'code', 'procedurecode', 'procedure', 'hcpcs', 'billingcode']) ||
+      row.code || row.cpt || row.cpt_code || row.HCPCS;
     const rate =
-      findField(row, ['negotiatedrate', 'rate', 'allowed', 'amount', 'price']) ||
-      row.negotiated_rate ||
-      row.rate ||
-      row.amount ||
-      row.price;
+      findField(row, ['negotiatedrate', 'rate', 'allowedamount', 'allowed', 'amount', 'price', 'payment', 'charge']) ||
+      row.negotiated_rate || row.rate || row.amount || row.price || firstNumeric(row);
     const descr =
-      findField(row, ['description', 'desc']) ||
-      row.description ||
-      row.desc ||
-      '';
+      findField(row, ['description', 'desc', 'service', 'proceduredescription']) ||
+      row.description || row.desc || '';
     const billingClass =
-      findField(row, ['billingclass', 'class']) ||
-      row.billing_class ||
-      row.class ||
-      null;
+      findField(row, ['billingclass', 'class', 'category']) ||
+      row.billing_class || row.class || null;
     const negotiatedType =
       findField(row, ['negotiatedtype', 'feeschedule']) ||
-      row.negotiated_type ||
-      null;
+      row.negotiated_type || null;
     const expiry =
-      findField(row, ['expiration', 'expiry']) ||
-      row.expiration_date ||
-      row.expiry ||
-      null;
+      findField(row, ['expiration', 'expiry', 'enddate', 'expirationdate']) ||
+      row.expiration_date || row.expiry || row.end_date || null;
 
     const norm = normalizeRow({
       code,
@@ -228,10 +228,11 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
     let cptData = {};
     let type = 'csv';
-    if (req.file?.originalname?.endsWith('.xlsx') || req.file?.originalname?.endsWith('.xls')) {
+    const fname = (req.file?.originalname || req.body.url || '').toLowerCase();
+    if (fname.endsWith('.xlsx') || fname.endsWith('.xls')) {
       cptData = ingestXLSX(buffer);
       type = 'excel';
-    } else if (req.file?.originalname?.endsWith('.json') || req.body.url?.endsWith('.json')) {
+    } else if (fname.endsWith('.json')) {
       const obj = JSON.parse(buffer.toString('utf8'));
       cptData = ingestJSON(obj);
       type = 'direct_in_network_json';
