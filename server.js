@@ -16,6 +16,12 @@ const sources = new Map();
 
 function cleanNumber(val) {
   if (val === undefined || val === null || val === '') return null;
+  if (typeof val === 'string') {
+    const cleaned = val.replace(/[\$,]/g, '').trim();
+    if (cleaned === '') return null;
+    const num = Number(cleaned);
+    return Number.isFinite(num) ? num : null;
+  }
   const num = Number(val);
   return Number.isFinite(num) ? num : null;
 }
@@ -69,7 +75,7 @@ function ingestCSV(buffer) {
       findField(row, ['cpt', 'cptcode', 'code', 'procedurecode', 'procedure', 'hcpcs', 'billingcode']) ||
       row.code || row.cpt || row.cpt_code || row.HCPCS;
     const rate =
-      findField(row, ['negotiatedrate', 'rate', 'allowedamount', 'allowed', 'amount', 'price', 'payment', 'charge']) ||
+      findField(row, ['negotiatedrate', 'rate', 'allowedamount', 'allowableamount', 'allowed', 'allowance', 'amount', 'price', 'payment', 'charge', 'fee', 'cost', 'calcrate', 'calc_rate', 'billed']) ||
       row.negotiated_rate || row.rate || row.amount || row.price || firstNumeric(row);
     const descr =
       findField(row, ['description', 'desc', 'service', 'proceduredescription']) ||
@@ -217,8 +223,16 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   try {
     const sourceName = req.body.source_name || 'Source';
     let buffer;
+    let detectedHeaders = [];
     if (req.file) {
       buffer = fs.readFileSync(req.file.path);
+      const textHead = buffer.slice(0, 2000).toString('utf8');
+      if (textHead.includes(',')) {
+        try {
+          const sample = parse(textHead, { to: 1, columns: true, skip_empty_lines: true, trim: true });
+          if (sample && sample[0]) detectedHeaders = Object.keys(sample[0]);
+        } catch (_) {}
+      }
       fs.unlink(req.file.path, () => {});
     } else if (req.body.url) {
       buffer = await fetchUrlContent(req.body.url);
@@ -241,7 +255,11 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       type = 'csv';
     }
 
-    return res.json(storeSource(sourceName, cptData, type));
+    const stored = storeSource(sourceName, cptData, type);
+    if (stored.cpt_count === 0 && detectedHeaders.length) {
+      stored.preview_message = `No CPT rows detected. Headers seen: ${detectedHeaders.join(', ')}`;
+    }
+    return res.json(stored);
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false, message: 'Upload failed', error: err.message });
