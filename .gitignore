@@ -5,6 +5,8 @@ __pycache__/
 ._*
 cached_mrf_files/
 2025-12-05_pl-4et-hr23_Aetna-Life-Insurance-Company_cpt.csv
+node_modules/
+uploads/
 
 # Vercel / build artifacts
 .vercel/

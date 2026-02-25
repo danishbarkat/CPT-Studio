@@ -1,12 +1,12 @@
 {
-  "version": 2,
   "functions": {
-    "api/index.py": {
-      "runtime": "python3.11",
-      "maxDuration": 60
+    "api/index.js": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 60,
+      "memory": 512
     }
   },
   "routes": [
-    { "src": "/(.*)", "dest": "/api/index.py" }
+    { "src": "/(.*)", "dest": "/api/index.js" }
   ]
 }
