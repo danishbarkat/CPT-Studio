@@ -37,18 +37,61 @@ function normalizeRow({ code, description, rate, billing_class, negotiated_type,
   };
 }
 
+function findField(row, aliases) {
+  const keys = Object.keys(row);
+  for (const key of keys) {
+    const norm = key.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (aliases.some(a => norm.includes(a))) {
+      return row[key];
+    }
+  }
+  return null;
+}
+
 function ingestCSV(buffer) {
   const text = buffer.toString('utf8');
-  const records = parse(text, { columns: true, skip_empty_lines: true });
+  const records = parse(text, { columns: true, skip_empty_lines: true, trim: true });
   const out = {};
   for (const row of records) {
-    const code = row.code || row.cpt || row.cpt_code;
-    const rate = row.negotiated_rate || row.rate || row.amount || row.price;
-    const descr = row.description || row.desc || '';
-    const billingClass = row.billing_class || row.class || null;
-    const negotiatedType = row.negotiated_type || null;
-    const expiry = row.expiration_date || row.expiry || null;
-    const norm = normalizeRow({ code, description: descr, rate, billing_class: billingClass, negotiated_type: negotiatedType, expiration_date: expiry });
+    const code =
+      findField(row, ['cpt', 'code']) ||
+      row.code ||
+      row.cpt ||
+      row.cpt_code;
+    const rate =
+      findField(row, ['negotiatedrate', 'rate', 'allowed', 'amount', 'price']) ||
+      row.negotiated_rate ||
+      row.rate ||
+      row.amount ||
+      row.price;
+    const descr =
+      findField(row, ['description', 'desc']) ||
+      row.description ||
+      row.desc ||
+      '';
+    const billingClass =
+      findField(row, ['billingclass', 'class']) ||
+      row.billing_class ||
+      row.class ||
+      null;
+    const negotiatedType =
+      findField(row, ['negotiatedtype', 'feeschedule']) ||
+      row.negotiated_type ||
+      null;
+    const expiry =
+      findField(row, ['expiration', 'expiry']) ||
+      row.expiration_date ||
+      row.expiry ||
+      null;
+
+    const norm = normalizeRow({
+      code,
+      description: descr,
+      rate,
+      billing_class: billingClass,
+      negotiated_type: negotiatedType,
+      expiration_date: expiry
+    });
     if (norm) out[norm.code] = norm;
   }
   return out;
