@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPT Studio | Physician-Ready Pricing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0f172a;
+            --marine: #0b5fa5;
+            --teal: #0ea5e9;
+            --mint: #10b981;
+            --sand: #e2e8f0;
+            --paper: #f8fafc;
+            --card: #ffffff;
+            --border: #d6dbe6;
+            --muted: #6b7280;
+            --text-main: #0f172a;
+            --text-muted: #6b7280;
+            --primary: #0b5fa5;
+            --danger: #e11d48;
+            --success: #059669;
+            --shadow-lg: 0 25px 80px rgba(15, 23, 42, 0.12);
+            --shadow-sm: 0 14px 30px rgba(15, 23, 42, 0.10);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', 'Helvetica Neue', sans-serif;
+            background: radial-gradient(circle at 20% 20%, rgba(14,165,233,0.10), transparent 28%),
+                        radial-gradient(circle at 80% 0%, rgba(16,185,129,0.08), transparent 32%),
+                        var(--paper);
+            color: var(--ink);
+            min-height: 100vh;
+            padding: 32px;
+            line-height: 1.6;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            color: var(--marine);
+        }
+
+        .brand-mark {
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--marine), var(--teal));
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-weight: 800;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .pill {
+            padding: 8px 14px;
+            border-radius: 999px;
+            background: rgba(14,165,233,0.12);
+            color: var(--marine);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: 1px solid rgba(11,95,165,0.15);
+        }
+
+        .page { display: flex; flex-direction: column; gap: 22px; margin-bottom: 80px; }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(145deg, #f9fbff, #eef5fb);
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(14,165,233,0.20), transparent 30%),
+                        radial-gradient(circle at 20% 80%, rgba(16,185,129,0.16), transparent 28%);
+            pointer-events: none;
+        }
+
+        .hero-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; align-items: center; position: relative; z-index: 1; }
+        .hero h1 { font-size: 2.3rem; letter-spacing: -0.02em; margin-bottom: 10px; }
+        .hero p { color: var(--muted); max-width: 620px; }
+
+        .hero-stats { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 18px; }
+        .stat-chip {
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: #fff;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            min-width: 140px;
+        }
+        .stat-chip strong { display: block; font-size: 1.3rem; }
+        .stat-chip span { color: var(--muted); font-size: 0.9rem; }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .step {
+            background: rgba(11,95,165,0.06);
+            color: var(--marine);
+            border: 1px solid rgba(11,95,165,0.12);
+            border-radius: 12px;
+            padding: 12px 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+
+        .card h3 { margin-bottom: 6px; letter-spacing: -0.01em; }
+        .card > p { color: var(--muted); margin-bottom: 18px; }
+
+        .source-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+
+        .source-panel {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            background: linear-gradient(180deg, #ffffff, #f9fbff);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            position: relative;
+        }
+
+        .panel-header { font-weight: 700; color: var(--marine); display: flex; align-items: center; gap: 8px; }
+        .panel-header .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 8px rgba(14,165,233,0.12); }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: #fff;
+            font-size: 0.96rem;
+            color: var(--ink);
+            transition: border 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 4px rgba(14,165,233,0.12);
+        }
+
+        .file-input {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.9rem;
+            color: var(--muted);
+            border: 1px dashed var(--border);
+            padding: 14px;
+            border-radius: 12px;
+            background: #fff;
+            position: relative;
+        }
+
+        .file-input input[type="file"] { opacity: 0; position: absolute; inset: 0; cursor: pointer; }
+
+        .file-input .file-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--marine), var(--teal));
+            color: #fff;
+            font-weight: 700;
+            padding: 10px 16px;
+            border-radius: 10px;
+            width: fit-content;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .file-input .file-hint { font-size: 0.85rem; color: var(--muted); }
+
+        .divider { text-align: center; color: var(--muted); font-size: 0.82rem; letter-spacing: 0.12em; margin: 8px 0; }
+
+        button {
+            border: none;
+            border-radius: 12px;
+            padding: 12px 18px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+        }
+
+        button:disabled { opacity: 0.55; cursor: not-allowed; filter: grayscale(0.3); }
+        button:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12); }
+
+        .primary-button { background: linear-gradient(120deg, var(--marine), var(--teal)); color: #fff; }
+        .warning-button { background: linear-gradient(120deg, #f97316, #fb923c); color: #fff; flex: 1; }
+        .cta-button { background: linear-gradient(120deg, var(--teal), #0891b2); color: #fff; flex: 1; }
+        .success-button { background: linear-gradient(120deg, var(--mint), #0f9d7a); color: #fff; }
+        .download-button { background: linear-gradient(120deg, var(--mint), #0ea879); color: #fff; padding: 10px 16px; font-size: 0.92rem; }
+
+        .note {
+            margin: 18px 0;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: rgba(249, 115, 22, 0.09);
+            border: 1px solid rgba(249, 115, 22, 0.18);
+            color: #c2410c;
+            font-size: 0.95rem;
+        }
+
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+        .results-wrapper { background: #f7fffb; border: 1px solid #c7f9dd; }
+
+        .results-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+        .results-header h2 { font-size: 1.5rem; letter-spacing: -0.01em; }
+        .results-header p { color: var(--muted); }
+
+        .results { display: flex; flex-direction: column; gap: 20px; }
+
+        .result-item { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: 22px; box-shadow: var(--shadow-sm); }
+        .result-item h4 { margin-bottom: 12px; color: var(--ink); font-size: 1.05rem; }
+
+        .cpt-table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+        .cpt-table th { background: #eef2f7; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.08em; color: var(--muted); }
+        .cpt-table th, .cpt-table td { border-bottom: 1px solid var(--border); padding: 12px 14px; text-align: left; }
+        .cpt-table tr:hover td { background: #f8fbff; }
+
+        .price-higher { color: #e11d48; font-weight: 700; }
+        .price-lower { color: #059669; font-weight: 700; }
+
+        .loading { display: none; text-align: center; padding: 24px 0; }
+        .loading.active { display: block; }
+        .spinner { margin: 0 auto 10px; width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--teal); animation: spin 0.8s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .alert { padding: 14px 16px; border-radius: 12px; display: flex; align-items: center; margin-bottom: 12px; border: 1px solid transparent; font-weight: 600; box-shadow: var(--shadow-sm); }
+        .alert-success { background: #ecfdf5; color: #047857; border-color: #a7f3d0; }
+        .alert-error { background: #fef2f2; color: #b91c1c; border-color: #fecaca; }
+
+        .url-list { max-height: 240px; overflow-y: auto; margin-top: 12px; padding-right: 6px; }
+        .url-item { padding: 12px; background: #fff; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: border 0.2s, transform 0.2s; }
+        .url-item:hover { border-color: var(--teal); transform: translateY(-1px); }
+        .url-item small { color: var(--muted); display: block; margin-top: 4px; font-size: 0.78rem; }
+
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        .stat-card { border-radius: 14px; padding: 18px; text-align: center; border: 1px solid var(--border); background: #fff; box-shadow: var(--shadow-sm); }
+        .stat-card h4 { color: var(--muted); font-size: 0.95rem; }
+        .stat-value { font-size: 2rem; font-weight: 800; margin-top: 6px; color: var(--ink); }
+        .stat-card p { margin-top: 6px; color: var(--muted); }
+
+        .pagination-controls { display: flex; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+        .pagination-controls button { background: #e0f2fe; color: var(--marine); padding: 8px 14px; border-radius: 10px; }
+        .pagination-controls span { color: var(--muted); font-weight: 700; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @media (max-width: 720px) {
+            body { padding: 18px; }
+            .hero h1 { font-size: 1.9rem; }
+            header { flex-direction: column; align-items: flex-start; gap: 10px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="brand"><div class="brand-mark">C</div> CPT Studio</div>
+        <span class="pill">Physician-grade pricing clarity</span>
+    </header>
+    <div class="page">
+        <div class="hero">
+            <div class="hero-grid">
+                <div>
+                    <h1>Side-by-side CPT pricing doctors can trust.</h1>
+                    <p>Upload payer files, stream giant JSONs, or pull payer URLs. We’ll surface deltas, savings, and outliers so clinicians get quick answers during consults.</p>
+                    <div class="hero-stats">
+                        <div class="stat-chip"><strong>3 steps</strong><span>Load · Compare · Export</span></div>
+                        <div class="stat-chip"><strong>300MB+</strong><span>Handles split files safely</span></div>
+                        <div class="stat-chip"><strong>Live CSV</strong><span>One-click export</span></div>
+                    </div>
+                </div>
+                <div>
+                    <div class="steps">
+                        <div class="step">1. Label your sources</div>
+                        <div class="step">2. Upload file or paste URL</div>
+                        <div class="step">3. Compare & export for rounds</div>
+                        <div class="step" style="background: rgba(16,185,129,0.08); color:#0f9d7a; border-color: rgba(16,185,129,0.15);">Bonus: Auto-preview giant files</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card upload-card">
+            <h3>Load your sources</h3>
+            <p>Clinician-friendly labels, generous file sizes, and URL ingestion. Source 1 supports split parts for huge JSON exports.</p>
+            <div class="source-grid">
+                <div class="source-panel">
+                    <div class="panel-header"><span class="dot"></span><span>Source 1</span></div>
+                    <input type="text" id="source1-name" placeholder="e.g., Blue Cross IL" aria-label="Source 1 name">
+                    <label class="file-input">
+                        <span class="file-label">Choose file</span>
+                        <input type="file" id="source1-file" accept=".json,.csv,.xlsx,.xls">
+                        <span class="file-hint" id="source1-file-hint">No file chosen</span>
+                    </label>
+                    <label class="file-input">
+                        <span class="file-label">Add split parts (multi-select)</span>
+                        <input type="file" id="source1-parts" accept=".json,.gz" multiple>
+                        <span class="file-hint" id="source1-parts-hint">Upload 300MB parts here</span>
+                    </label>
+                    <div class="divider">OR</div>
+                    <input type="text" id="source1-url" placeholder="Enter JSON URL" aria-label="Source 1 URL">
+                    <div class="actions">
+                        <button class="primary-button" onclick="uploadSource(1)">Load Source 1</button>
+                        <button class="warning-button" onclick="uploadSource1Parts()">Upload Parts</button>
+                        <button class="cta-button" onclick="finalizeSource1Parts()">Finalize Parts</button>
+                    </div>
+                </div>
+
+                <div class="source-panel">
+                    <div class="panel-header"><span class="dot" style="background:#10b981; box-shadow:0 0 0 8px rgba(16,185,129,0.14);"></span><span>Source 2</span></div>
+                    <input type="text" id="source2-name" placeholder="e.g., Aetna" aria-label="Source 2 name">
+                    <label class="file-input">
+                        <span class="file-label">Choose file</span>
+                        <input type="file" id="source2-file" accept=".json,.csv,.xlsx,.xls">
+                        <span class="file-hint" id="source2-file-hint">No file chosen</span>
+                    </label>
+                    <div class="divider">OR</div>
+                    <input type="text" id="source2-url" placeholder="Enter JSON URL" aria-label="Source 2 URL">
+                    <button class="primary-button" onclick="uploadSource(2)">Load Source 2</button>
+                </div>
+            </div>
+
+            <div class="note">
+                <strong>Heads up:</strong> Some payer URLs expire fast. Use test data for demos or fetch a fresh index JSON if links time out.
+            </div>
+
+            <div class="actions">
+                <button class="warning-button" onclick="loadTestData()">📊 Load Test Insurance Data (Source 1)</button>
+                <button class="cta-button" onclick="compareSources()">🔍 Compare Pricing</button>
+            </div>
+
+            <div id="alerts"></div>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing…</p>
+            </div>
+        </div>
+
+        <div class="card results-wrapper">
+            <div class="results-header">
+                <div>
+                    <h2>Pricing Comparison Results</h2>
+                    <p>Totals, outliers, savings — built for clinical conversations.</p>
+                </div>
+                <button class="success-button" id="export-comparison-btn" onclick="exportComparisonData()" disabled>⬇ Export Comparison CSV</button>
+            </div>
+            <div class="results" id="results"></div>
+        </div>
+    </div>
+
+    <script>
+        let source1Data = null;
+        let source2Data = null;
+        let loadedSources = new Set();
+        let source1Ready = false;
+        let source2Ready = false;
+        let source1PartSession = null;
+        let source1PartCount = 0;
+        const PAGE_SIZE = 20;
+        const READY_SOURCE_TYPES = new Set(['excel', 'direct_in_network_json', 'csv']);
+        const sourceCptState = {};
+        const exportComparisonButton = document.getElementById('export-comparison-btn');
+
+        function getSelectedComparisonRule() {
+            const el = document.getElementById('comparison-rule');
+            return (el && el.value) ? el.value : 'max';
+        }
+
+        function getSelectedNegotiatedType() {
+            const el = document.getElementById('negotiated-type');
+            return (el && el.value) ? el.value : '';
+        }
+
+        function getExcludeExpired() {
+            const el = document.getElementById('exclude-expired');
+            return !!(el && el.checked);
+        }
+
+        function ensureComparisonRuleSelector() {
+            if (document.getElementById('comparison-rule')) return;
+            const header = document.querySelector('.results-header');
+            if (!header) return;
+
+            const label = document.createElement('label');
+            label.style.display = 'flex';
+            label.style.alignItems = 'center';
+            label.style.gap = '10px';
+            label.style.flexWrap = 'wrap';
+
+            const title = document.createElement('span');
+            title.textContent = 'Comparison Rule';
+            title.style.fontWeight = '600';
+            title.style.color = 'var(--text-muted)';
+
+            const select = document.createElement('select');
+            select.id = 'comparison-rule';
+            select.style.padding = '10px 12px';
+            select.style.border = '1px solid var(--border)';
+            select.style.borderRadius = '10px';
+            select.style.background = 'var(--card)';
+            select.style.color = 'var(--text-main)';
+            select.innerHTML = `
+                <option value="max" selected>MAX (worst-case / highest)</option>
+                <option value="min">MIN (best-case / lowest)</option>
+                <option value="avg">AVG (average)</option>
+                <option value="median">MEDIAN (robust)</option>
+                <option value="max_avg_by_billing_class">By Billing Class (max avg)</option>
+                <option value="all_classes">All Classes (per class compare)</option>
+                <option value="per_occurrence">Per Code (highest of repeats)</option>
+                <option value="context">Context (class + modifier)</option>
+            `;
+
+            label.appendChild(title);
+            label.appendChild(select);
+            header.insertBefore(label, exportComparisonButton);
+
+            const ntLabel = document.createElement('label');
+            ntLabel.style.display = 'flex';
+            ntLabel.style.alignItems = 'center';
+            ntLabel.style.gap = '10px';
+            ntLabel.style.flexWrap = 'wrap';
+
+            const ntTitle = document.createElement('span');
+            ntTitle.textContent = 'Negotiated Type';
+            ntTitle.style.fontWeight = '600';
+            ntTitle.style.color = 'var(--text-muted)';
+
+            const ntSelect = document.createElement('select');
+            ntSelect.id = 'negotiated-type';
+            ntSelect.style.padding = '10px 12px';
+            ntSelect.style.border = '1px solid var(--border)';
+            ntSelect.style.borderRadius = '10px';
+            ntSelect.style.background = 'var(--card)';
+            ntSelect.style.color = 'var(--text-main)';
+            ntSelect.innerHTML = `
+                <option value="">Any</option>
+                <option value="fee schedule">fee schedule</option>
+            `;
+
+            ntLabel.appendChild(ntTitle);
+            ntLabel.appendChild(ntSelect);
+            header.insertBefore(ntLabel, exportComparisonButton);
+
+            const expLabel = document.createElement('label');
+            expLabel.style.display = 'flex';
+            expLabel.style.alignItems = 'center';
+            expLabel.style.gap = '8px';
+            expLabel.style.flexWrap = 'wrap';
+            expLabel.style.color = 'var(--text-muted)';
+            expLabel.style.fontWeight = '600';
+
+            const expCheckbox = document.createElement('input');
+            expCheckbox.type = 'checkbox';
+            expCheckbox.id = 'exclude-expired';
+
+            const expText = document.createElement('span');
+            expText.textContent = 'Exclude expired';
+
+            expLabel.appendChild(expCheckbox);
+            expLabel.appendChild(expText);
+            header.insertBefore(expLabel, exportComparisonButton);
+        }
+
+        const fileInputs = [
+            { inputId: 'source1-file', hintId: 'source1-file-hint' },
+            { inputId: 'source2-file', hintId: 'source2-file-hint' },
+            { inputId: 'source1-parts', hintId: 'source1-parts-hint' }
+        ];
+
+        fileInputs.forEach(({ inputId, hintId }) => {
+            const input = document.getElementById(inputId);
+            const hint = document.getElementById(hintId);
+            if (!input || !hint) return;
+            input.addEventListener('change', () => {
+                if (!input.files || input.files.length === 0) {
+                    hint.textContent = 'No file chosen';
+                    return;
+                }
+                if (input.multiple && input.files.length > 1) {
+                    hint.textContent = `${input.files.length} parts selected`;
+                } else {
+                    hint.textContent = input.files[0].name;
+                }
+            });
+        });
+        let currentComparison = null;
+        const comparisonPagination = {
+            higher_in_source1: 1,
+            higher_in_source2: 1
+        };
+        const COMPARISON_PAGE_SIZE = 10;
+        ensureComparisonRuleSelector();
+
+        function setSourceReadyByNumber(sourceNum, isReady) {
+            if (sourceNum === 1) {
+                source1Ready = isReady;
+            } else {
+                source2Ready = isReady;
+            }
+        }
+
+        function markSourceReadyByName(sourceName) {
+            if (source1Data && source1Data.source_name === sourceName) {
+                source1Ready = true;
+            }
+            if (source2Data && source2Data.source_name === sourceName) {
+                source2Ready = true;
+            }
+        }
+
+        async function uploadSource(sourceNum) {
+            const nameInput = document.getElementById(`source${sourceNum}-name`);
+            const fileInput = document.getElementById(`source${sourceNum}-file`);
+            const urlInput = document.getElementById(`source${sourceNum}-url`);
+
+            const sourceName = nameInput.value || `Source ${sourceNum}`;
+            const file = fileInput.files[0];
+            const url = urlInput.value;
+
+            if (!file && !url) {
+                showAlert('Please provide either a file or URL', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            const formData = new FormData();
+            formData.append('source_name', sourceName);
+
+            if (file) {
+                formData.append('file', file);
+            } else {
+                formData.append('url', url);
+            }
+
+            try {
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const previewMessage = data.preview_message || null;
+                    const cptPayload = data.cpt_data || data.cpt_preview || null;
+                    const totalAvailable = data.cpt_count || (cptPayload ? Object.keys(cptPayload).length : 0);
+
+                    if (sourceNum === 1) {
+                        source1Data = data;
+                        source1Ready = READY_SOURCE_TYPES.has(data.type);
+                    } else {
+                        source2Data = data;
+                        source2Ready = READY_SOURCE_TYPES.has(data.type);
+                    }
+
+                    loadedSources.add(sourceName);
+
+                    if (data.type === 'excel') {
+                        showAlert(`${sourceName} loaded successfully! Found ${data.cpt_count} CPT codes from Excel.`, 'success');
+                        displayExcelInfo(sourceNum, data);
+                    } else if (data.type === 'csv') {
+                        showAlert(`${sourceName} loaded successfully! Found ${data.cpt_count} CPT codes from CSV.`, 'success');
+                        displayExcelInfo(sourceNum, data, 'CSV Upload', '🧾');
+                        if (cptPayload) {
+                            displayCPTData(cptPayload, data.source_name, previewMessage, totalAvailable);
+                        }
+                    } else if (data.type === 'direct_in_network_json') {
+                        showAlert(`${sourceName} loaded successfully! Found ${data.cpt_count} CPT codes directly in this JSON.`, 'success');
+                        displayDirectJsonInfo(sourceNum, data);
+                        if (cptPayload) {
+                            displayCPTData(cptPayload, data.source_name, previewMessage, totalAvailable);
+                        }
+                    } else if (data.type === 'large_file_pagination_recommended') {
+                        // Large file - auto-load first page
+                        showAlert(`${sourceName}: File is ${data.file_size_mb}MB. Auto-loading first page...`, 'success');
+                        await loadPaginatedData(data.file_id, sourceName, sourceNum);
+                    } else if (data.type === 'json_index') {
+                        showAlert(`${sourceName} loaded successfully! Found ${data.file_count} in-network files. Click one of the sample files below to pull CPT pricing before comparing.`, 'success');
+                        displaySourceInfo(sourceNum, data);
+                    } else {
+                        const fallbackMessage = data.message || 'Loaded file, but could not determine if it contains index URLs or CPT pricing.';
+                        showAlert(fallbackMessage, 'warning');
+                    }
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('Error uploading: ' + error.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function uploadSource1Parts() {
+            const partsInput = document.getElementById('source1-parts');
+            const nameInput = document.getElementById('source1-name');
+            const sourceName = nameInput.value || 'Source 1 (parts)';
+
+            if (!partsInput.files || partsInput.files.length === 0) {
+                showAlert('Select one or more split part files first.', 'error');
+                return;
+            }
+
+            showLoading(true);
+            try {
+                for (const file of partsInput.files) {
+                    const formData = new FormData();
+                    formData.append('file', file);
+                    formData.append('source_name', sourceName);
+                    if (source1PartSession) {
+                        formData.append('session_id', source1PartSession);
+                    }
+
+                    if (source2Ready && source2Data && source2Data.source_name) {
+                        formData.append('baseline_source', source2Data.source_name);
+                    }
+                    formData.append('compare_rule', getSelectedComparisonRule());
+                    formData.append('negotiated_type', getSelectedNegotiatedType());
+                    formData.append('exclude_expired', getExcludeExpired() ? 'true' : 'false');
+
+                    const response = await fetch('/upload_multipart_part', {
+                        method: 'POST',
+                        body: formData
+                    });
+                    const data = await response.json();
+                    if (!data.success) {
+                        showAlert(data.message || 'Error uploading part.', 'error');
+                        return;
+                    }
+                    source1PartSession = data.session_id;
+                    source1PartCount = data.part_count;
+                    loadedSources.add(data.source_name);
+                    document.getElementById('source1-parts-hint').textContent = `${source1PartCount} parts uploaded (${data.total_size_mb} MB)`;
+                    if (data.comparison) {
+                        displayComparison(data.comparison);
+                    }
+                    showAlert(data.message, 'success');
+                }
+            } catch (err) {
+                showAlert('Error uploading parts: ' + err.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function finalizeSource1Parts() {
+            if (!source1PartSession) {
+                showAlert('Upload at least one part before finalizing.', 'error');
+                return;
+            }
+
+            const nameInput = document.getElementById('source1-name');
+            const sourceName = nameInput.value || 'Source 1 (parts)';
+            const formData = new FormData();
+            formData.append('session_id', source1PartSession);
+            formData.append('source_name', sourceName);
+
+            // If Source 2 is ready, auto-use it as baseline for comparison
+            if (source2Ready && source2Data && source2Data.source_name) {
+                formData.append('baseline_source', source2Data.source_name);
+            }
+            formData.append('compare_rule', getSelectedComparisonRule());
+            formData.append('negotiated_type', getSelectedNegotiatedType());
+            formData.append('exclude_expired', getExcludeExpired() ? 'true' : 'false');
+
+            showLoading(true);
+            try {
+                const response = await fetch('/finalize_multipart', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+
+                if (!data.success) {
+                    showAlert(data.message || 'Unable to finalize parts.', 'error');
+                    return;
+                }
+
+                // If comparison payload returned
+                if (data.higher_in_source1 || data.higher_in_source2 || data.equal) {
+                    data.source1 = data.source1 || sourceName;
+                    displayComparison(data);
+                    showAlert(`Compared split parts (${source1PartCount} parts) against ${data.source2}.`, 'success');
+                    return;
+                }
+
+                // Otherwise treat as loaded source
+                const previewMessage = data.preview_message || null;
+                const cptPayload = data.cpt_data || data.cpt_preview || null;
+                const totalAvailable = data.cpt_count || (cptPayload ? Object.keys(cptPayload).length : 0);
+
+                source1Data = { source_name: data.source_name || sourceName, type: data.type || 'direct_in_network_json' };
+                source1Ready = true;
+                loadedSources.add(source1Data.source_name);
+
+                if (cptPayload) {
+                    displayCPTData(cptPayload, source1Data.source_name, previewMessage, totalAvailable);
+                }
+                showAlert(`Loaded split parts as ${source1Data.source_name} (${source1PartCount} parts). Ready for comparison.`, 'success');
+            } catch (err) {
+                showAlert('Error finalizing parts: ' + err.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function displayExcelInfo(sourceNum, data, label = 'Excel', icon = '📊') {
+            const resultsDiv = document.getElementById('results');
+            const sourceDiv = document.createElement('div');
+            sourceDiv.className = 'result-item';
+            sourceDiv.id = `source${sourceNum}-info`;
+
+            setSourceReadyByNumber(sourceNum, true);
+
+            // Remove existing info for this source
+            const existing = document.getElementById(`source${sourceNum}-info`);
+            if (existing) existing.remove();
+
+            sourceDiv.innerHTML = `
+                <h4>${icon} ${data.source_name} (${label})</h4>
+                <p><strong>CPT Codes Loaded:</strong> ${data.cpt_count}</p>
+                <p style="color: #27ae60; font-weight: 600;">✓ Ready for comparison</p>
+            `;
+
+            resultsDiv.appendChild(sourceDiv);
+        }
+
+        function displayDirectJsonInfo(sourceNum, data) {
+            const resultsDiv = document.getElementById('results');
+            const sourceDiv = document.createElement('div');
+            sourceDiv.className = 'result-item';
+            sourceDiv.id = `source${sourceNum}-info`;
+
+            setSourceReadyByNumber(sourceNum, true);
+
+            const existing = document.getElementById(`source${sourceNum}-info`);
+            if (existing) existing.remove();
+
+            sourceDiv.innerHTML = `
+                <h4>🩺 ${data.source_name} (Direct In-Network JSON)</h4>
+                <p><strong>CPT Codes Loaded:</strong> ${data.cpt_count}</p>
+                <p style="color: #27ae60; font-weight: 600;">✓ Ready for comparison</p>
+            `;
+
+            resultsDiv.appendChild(sourceDiv);
+        }
+
+        function displaySourceInfo(sourceNum, data) {
+            const resultsDiv = document.getElementById('results');
+            const sourceDiv = document.createElement('div');
+            sourceDiv.className = 'result-item';
+            sourceDiv.id = `source${sourceNum}-info`;
+
+            setSourceReadyByNumber(sourceNum, false);
+
+            // Remove existing info for this source
+            const existing = document.getElementById(`source${sourceNum}-info`);
+            if (existing) existing.remove();
+
+            let html = `
+                <h4>${data.source_name}</h4>
+                <p><strong>In-Network Files:</strong> ${data.file_count}</p>
+                <div class="url-list">
+                    <p><strong>Sample Files (click to fetch pricing):</strong></p>
+            `;
+
+            const sampleUrls = data.sample_urls || [];
+            sampleUrls.forEach((urlInfo, index) => {
+                html += `
+                    <div class="url-item" onclick="fetchPricing('${urlInfo.url}', '${data.source_name}')">
+                        <strong>File ${index + 1}:</strong> ${urlInfo.description}
+                        <small>${urlInfo.url.substring(0, 80)}...</small>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            sourceDiv.innerHTML = html;
+            resultsDiv.appendChild(sourceDiv);
+        }
+
+        async function fetchPricing(url, sourceName) {
+            showLoading(true);
+            showAlert('Fetching pricing data... large files may take a minute the first time.', 'success');
+
+            try {
+                const response = await fetch('/fetch_pricing', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ url, source_name: sourceName })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    loadedSources.add(sourceName);
+                    displayCPTData(data.cpt_data, sourceName, data.preview_message || null, data.cpt_count || (data.cpt_data ? Object.keys(data.cpt_data).length : null));
+                    const cacheNote = data.cache_hit ? ' (loaded from local cache)' : '';
+                    showAlert(`Loaded ${data.cpt_count} CPT codes from ${sourceName}. Ready for comparison!${cacheNote}`, 'success');
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('Error fetching pricing: ' + error.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function loadPaginatedData(fileId, sourceName, sourceNum) {
+            try {
+                const formData = new FormData();
+                formData.append('file_id', fileId);
+                formData.append('page', 1);
+                formData.append('page_size', 2000);  // Increased from 500 to 2000
+
+                const response = await fetch('/load_paginated', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.cpt_data) {
+                    // Mark source as ready
+                    if (sourceNum === 1) {
+                        source1Ready = true;
+                    } else {
+                        source2Ready = true;
+                    }
+
+                    // Display the loaded data
+                    displayCPTData(data.cpt_data, sourceName,
+                        `Showing page 1 (${data.cpt_count} codes). Large file loaded via pagination.`,
+                        data.cpt_count);
+
+                    showAlert(`✓ ${sourceName}: Loaded first page (${data.cpt_count} codes). Ready for comparison!`, 'success');
+                } else {
+                    showAlert(`Error loading paginated data: ${data.message}`, 'error');
+                }
+            } catch (error) {
+                showAlert('Error loading paginated data: ' + error.message, 'error');
+            }
+        }
+
+        function displayCPTData(cptData, sourceName, previewMessage = null, totalAvailable = null) {
+            if (!cptData) return;
+            sourceCptState[sourceName] = {
+                data: cptData,
+                codes: Object.keys(cptData),
+                currentPage: 1,
+                previewMessage: previewMessage,
+                previewOnly: Boolean(previewMessage),
+                totalAvailable: totalAvailable || Object.keys(cptData).length
+            };
+
+            renderCptTable(sourceName);
+            markSourceReadyByName(sourceName);
+        }
+
+        function renderCptTable(sourceName) {
+            const state = sourceCptState[sourceName];
+            if (!state) return;
+
+            const previewMessage = state.previewMessage;
+            const previewOnly = state.previewOnly;
+            const totalAvailable = state.totalAvailable || state.codes.length;
+            const totalCodes = state.codes.length;
+            const totalPages = Math.max(1, Math.ceil(totalCodes / PAGE_SIZE));
+            state.currentPage = Math.min(state.currentPage, totalPages);
+
+            const startIndex = (state.currentPage - 1) * PAGE_SIZE;
+            const currentCodes = state.codes.slice(startIndex, startIndex + PAGE_SIZE);
+
+            const resultsDiv = document.getElementById('results');
+            let tableDiv = document.getElementById(`cpt-data-${sourceName}`);
+            if (!tableDiv) {
+                tableDiv = document.createElement('div');
+                tableDiv.className = 'result-item';
+                tableDiv.id = `cpt-data-${sourceName}`;
+                resultsDiv.appendChild(tableDiv);
+            }
+
+            let rows = '';
+            currentCodes.forEach((code, index) => {
+                const serial = startIndex + index + 1;
+                const info = state.data[code];
+                const rate = (info && info.rates && info.rates[0]) ? info.rates[0] : {};
+                const desc = info && info.description ? info.description : 'No description';
+                rows += `
+                    <tr>
+                        <td>${serial}</td>
+                        <td><strong>${code}</strong></td>
+                        <td>${desc.length > 80 ? desc.substring(0, 80) + '...' : desc}</td>
+                        <td>$${rate.negotiated_rate ? Number(rate.negotiated_rate).toFixed(2) : 'N/A'}</td>
+                        <td>${rate.billing_class || 'N/A'}</td>
+                    </tr>
+                `;
+            });
+
+            const previewNote = previewMessage ? `<div class="preview-note" style="margin-bottom: 10px; background: #fff4e6; border: 1px solid #fcd9bd; padding: 10px; border-radius: 8px; color: #92400e;">${previewMessage}</div>` : '';
+            const previewTotals = previewOnly ? ` (Preview of ${totalAvailable.toLocaleString()})` : '';
+
+            const summaryText = previewOnly
+                ? `✓ ${totalAvailable.toLocaleString()} CPT codes detected - showing the first ${totalCodes.toLocaleString()} for preview`
+                : `✓ ${totalCodes} codes loaded - Ready for comparison`;
+
+            tableDiv.innerHTML = `
+                <h4>CPT Codes from ${sourceName}</h4>
+                <p style="color: #27ae60; font-weight: 600;">${summaryText}</p>
+                ${previewNote}
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <p style="color: var(--text-muted); margin: 0;">Showing ${totalCodes ? startIndex + 1 : 0}-${Math.min(startIndex + PAGE_SIZE, totalCodes)} of ${totalCodes}${previewTotals}</p>
+                    <button class="download-button" onclick="exportSourceData('${sourceName}')">⬇ Download CSV</button>
+                </div>
+                <table class="cpt-table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>CPT Code</th>
+                            <th>Description</th>
+                            <th>Negotiated Rate</th>
+                            <th>Billing Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows || '<tr><td colspan="5">No CPT codes found.</td></tr>'}
+                    </tbody>
+                </table>
+                <div class="pagination-controls">
+                    <button onclick="changeCptPage('${sourceName}', -1)" ${state.currentPage === 1 ? 'disabled' : ''}>⬅ Previous</button>
+                    <span>Page ${totalCodes ? state.currentPage : 0} of ${totalCodes ? totalPages : 0}</span>
+                    <button onclick="changeCptPage('${sourceName}', 1)" ${state.currentPage === totalPages ? 'disabled' : ''}>Next ➡</button>
+                </div>
+            `;
+        }
+
+        function changeCptPage(sourceName, delta) {
+            const state = sourceCptState[sourceName];
+            if (!state) return;
+            const totalPages = Math.max(1, Math.ceil(state.codes.length / PAGE_SIZE));
+            const newPage = state.currentPage + delta;
+            if (newPage < 1 || newPage > totalPages) return;
+            state.currentPage = newPage;
+            renderCptTable(sourceName);
+        }
+
+        async function exportSourceData(sourceName) {
+            try {
+                const response = await fetch(`/export_source_csv?source=${encodeURIComponent(sourceName)}`);
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    showAlert(errorData.message || 'Failed to export data.', 'error');
+                    return;
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${sourceName}_cpt_pricing.csv`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+                showAlert(`Downloaded ${sourceName} CPT data.`, 'success');
+            } catch (error) {
+                showAlert('Error exporting data: ' + error.message, 'error');
+            }
+        }
+
+        async function loadTestData() {
+            showLoading(true);
+            showAlert('Loading test insurance data...', 'success');
+
+            try {
+                const response = await fetch('/load_test_data', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ source_name: 'Test Insurance' })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    source1Data = { source_name: 'Test Insurance', type: 'json' };
+                    loadedSources.add('Test Insurance');
+                    displayCPTData(data.cpt_data, 'Test Insurance', null, data.cpt_count || Object.keys(data.cpt_data || {}).length);
+                    showAlert(`Loaded ${data.cpt_count} CPT codes from Test Insurance. Ready for comparison!`, 'success');
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('Error loading test data: ' + error.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function compareSources() {
+            if (!source1Data || !source2Data) {
+                showAlert('Please load both sources first!', 'error');
+                return;
+            }
+
+            if (!source1Ready || !source2Ready) {
+                showAlert('Please load CPT pricing for both sources. Click a sample in-network file after uploading an index JSON (or load Excel/Test data) before comparing.', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const response = await fetch('/compare', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        source1: source1Data.source_name,
+                        source2: source2Data.source_name,
+                        compare_rule: getSelectedComparisonRule(),
+                        negotiated_type: getSelectedNegotiatedType(),
+                        exclude_expired: getExcludeExpired()
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    displayComparison(data.comparison);
+                } else {
+                    showAlert(data.message, 'error');
+                }
+            } catch (error) {
+                showAlert('Error comparing: ' + error.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        function formatComparisonDescription(item, comparison) {
+            const truncate = (text) => {
+                if (!text) return 'No description';
+                return text.length > 60 ? `${text.substring(0, 57)}...` : text;
+            };
+
+            const desc1 = truncate(item.source1_description);
+            const desc2 = truncate(item.source2_description);
+
+            if (item.descriptions_match || !item.source2_description) {
+                return `<span style="color: var(--text-muted);">${desc1}</span>`;
+            }
+
+            return `
+                <div style="color: var(--text-muted);"><strong>${comparison.source1}:</strong> ${desc1}</div>
+                <div style="color: var(--text-muted); opacity: 0.8;"><strong>${comparison.source2}:</strong> ${desc2}</div>
+            `;
+        }
+
+        function formatCurrency(value) {
+            const amount = Number(value || 0);
+            return '$' + amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function resetComparisonPagination() {
+            Object.keys(comparisonPagination).forEach(key => {
+                comparisonPagination[key] = 1;
+            });
+        }
+
+        function displayComparison(comparison) {
+            currentComparison = comparison;
+            resetComparisonPagination();
+            if (exportComparisonButton) {
+                exportComparisonButton.disabled = false;
+            }
+            renderComparisonResults();
+            if (!comparison || !comparison.incremental) {
+                showAlert('Comparison complete!', 'success');
+            }
+        }
+
+        function renderComparisonResults() {
+            if (!currentComparison) return;
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            const compDiv = document.createElement('div');
+            compDiv.className = 'result-item';
+            compDiv.id = 'comparison-results';
+            resultsDiv.appendChild(compDiv);
+
+            const higherTotal = formatCurrency(currentComparison.total_higher_in_source1_amount);
+            const lowerTotal = formatCurrency(currentComparison.total_higher_in_source2_amount);
+
+            let html = `
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                    <h3 style="color: var(--text-main); font-size: 1.5rem;">📊 Pricing Comparison Results</h3>
+                    <button class="download-button" onclick="exportComparisonData()">⬇ Export Comparison CSV</button>
+                </div>
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h4 style="color: var(--primary);">Total Compared</h4>
+                        <p class="stat-value">${currentComparison.total_compared}</p>
+                    </div>
+                    ${currentComparison.parts_processed != null ? `
+                    <div class="stat-card">
+                        <h4 style="color: var(--text-muted);">Parts Processed</h4>
+                        <p class="stat-value">${currentComparison.parts_processed}</p>
+                    </div>
+                    ` : ''}
+                    <div class="stat-card">
+                        <h4 style="color: var(--danger);">Higher in ${currentComparison.source1}</h4>
+                        <p class="stat-value" style="background: linear-gradient(to bottom, #fca5a5, #ef4444); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${(currentComparison.higher_in_source1_count != null) ? currentComparison.higher_in_source1_count : currentComparison.higher_in_source1.length}</p>
+                        <p style="margin-top: 10px; color: var(--text-muted);">Total Impact: <strong>${higherTotal}</strong></p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 style="color: var(--success);">Lower in ${currentComparison.source1}</h4>
+                        <p class="stat-value" style="background: linear-gradient(to bottom, #86efac, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${(currentComparison.higher_in_source2_count != null) ? currentComparison.higher_in_source2_count : currentComparison.higher_in_source2.length}</p>
+                        <p style="margin-top: 10px; color: var(--text-muted);">Potential Savings: <strong>${lowerTotal}</strong></p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 style="color: var(--text-muted);">Equal Pricing</h4>
+                        <p class="stat-value" style="background: linear-gradient(to bottom, #e2e8f0, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">${(currentComparison.equal_count != null) ? currentComparison.equal_count : currentComparison.equal.length}</p>
+                    </div>
+                </div>
+            `;
+
+            html += buildComparisonTable('higher_in_source1', `🔴 Higher Prices in ${currentComparison.source1}`, currentComparison.source1, currentComparison.source2, false);
+            html += buildComparisonTable('higher_in_source2', `🟢 Lower Prices in ${currentComparison.source1} (Better Deal!)`, currentComparison.source1, currentComparison.source2, true);
+
+            html += buildComparisonTable('equal', `Equal Pricing (${currentComparison.source1} vs ${currentComparison.source2})`, currentComparison.source1, currentComparison.source2, false);
+            compDiv.innerHTML = html;
+        }
+
+        function buildComparisonTable(category, title, source1Label, source2Label, invertDifference) {
+            const items = (currentComparison && currentComparison[category]) || [];
+            if (!items.length) return '';
+
+            if (!comparisonPagination[category]) {
+                comparisonPagination[category] = 1;
+            }
+
+            const page = comparisonPagination[category];
+            const totalPages = Math.max(1, Math.ceil(items.length / COMPARISON_PAGE_SIZE));
+            const startIndex = (page - 1) * COMPARISON_PAGE_SIZE;
+            const slice = items.slice(startIndex, startIndex + COMPARISON_PAGE_SIZE);
+
+            let rows = '';
+            slice.forEach((item, index) => {
+                const serial = startIndex + index + 1;
+                const source1Rate = Number(item.source1_rate || 0);
+                const source2Rate = Number(item.source2_rate || 0);
+                const diffValue = Number(item.difference || 0);
+                const percent = Number(item.percent_difference || 0);
+                const diffLabel = invertDifference ? `-$${Math.abs(diffValue).toFixed(2)}` : `+$${diffValue.toFixed(2)}`;
+                const diffColor = invertDifference ? 'var(--success)' : 'var(--danger)';
+
+                rows += `
+                    <tr>
+                        <td>${serial}</td>
+                        <td><strong style="color: var(--text-main);">${item.code}${item.billing_class ? ` (${item.billing_class})` : ''}${item.modifiers && item.modifiers.length ? ` [${item.modifiers.join(',')}]` : ''}</strong></td>
+                        <td>${formatComparisonDescription(item, currentComparison)}</td>
+                        <td class="${invertDifference ? 'price-lower' : 'price-higher'}">$${source1Rate.toFixed(2)}</td>
+                        <td class="${invertDifference ? 'price-higher' : 'price-lower'}">$${source2Rate.toFixed(2)}</td>
+                        <td><span style="color: ${diffColor};">${diffLabel}</span> <span style="font-size: 0.8em; opacity: 0.7;">(${percent.toFixed(1)}%)</span></td>
+                    </tr>
+                `;
+            });
+
+            return `
+                <h4 style="color: ${invertDifference ? 'var(--success)' : 'var(--danger)'}; margin-top: 30px; margin-bottom: 15px;">${title}</h4>
+                <table class="cpt-table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>CPT Code</th>
+                            <th>Description</th>
+                            <th>${source1Label}</th>
+                            <th>${source2Label}</th>
+                            <th>${invertDifference ? 'Savings' : 'Difference'}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${rows}
+                    </tbody>
+                </table>
+                <div class="pagination-controls">
+                    <button onclick="changeComparisonPage('${category}', -1)" ${page === 1 ? 'disabled' : ''}>⬅ Previous</button>
+                    <span>Page ${page} of ${totalPages}</span>
+                    <button onclick="changeComparisonPage('${category}', 1)" ${page === totalPages ? 'disabled' : ''}>Next ➡</button>
+                </div>
+            `;
+        }
+
+        function changeComparisonPage(category, delta) {
+            if (!currentComparison || !currentComparison[category]) return;
+            const totalPages = Math.max(1, Math.ceil(currentComparison[category].length / COMPARISON_PAGE_SIZE));
+            const newPage = (comparisonPagination[category] || 1) + delta;
+            if (newPage < 1 || newPage > totalPages) return;
+            comparisonPagination[category] = newPage;
+            renderComparisonResults();
+        }
+
+        async function exportComparisonData() {
+            try {
+                let response;
+
+                if (currentComparison && currentComparison.incremental && currentComparison.session_id) {
+                    const params = new URLSearchParams({
+                        session_id: currentComparison.session_id
+                    });
+                    response = await fetch(`/export_incremental_comparison_csv?${params.toString()}`);
+                } else {
+                    if (!source1Data || !source2Data) {
+                        showAlert('Load both sources before exporting.', 'error');
+                        return;
+                    }
+
+                    const params = new URLSearchParams({
+                        source1: source1Data.source_name,
+                        source2: source2Data.source_name,
+                        compare_rule: getSelectedComparisonRule(),
+                        negotiated_type: getSelectedNegotiatedType(),
+                        exclude_expired: getExcludeExpired() ? 'true' : 'false'
+                    });
+
+                    response = await fetch(`/export_comparison_csv?${params.toString()}`);
+                }
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    showAlert(errorData.message || 'Failed to export comparison.', 'error');
+                    return;
+                }
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                if (currentComparison && currentComparison.incremental && currentComparison.session_id) {
+                    a.download = `${(currentComparison.source1 || 'Source1')}_vs_${(currentComparison.source2 || 'Source2')}_incremental_${currentComparison.session_id}.csv`;
+                } else {
+                    a.download = `${source1Data.source_name}_vs_${source2Data.source_name}_comparison.csv`;
+                }
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+                showAlert('Comparison CSV downloaded.', 'success');
+            } catch (error) {
+                showAlert('Error exporting comparison: ' + error.message, 'error');
+            }
+        }
+
+        function showAlert(message, type) {
+            const alertsDiv = document.getElementById('alerts');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            alertsDiv.innerHTML = '';
+            alertsDiv.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        function showLoading(show) {
+            const loading = document.getElementById('loading');
+            if (show) {
+                loading.classList.add('active');
+            } else {
+                loading.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

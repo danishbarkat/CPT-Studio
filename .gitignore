@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+._*
+cached_mrf_files/
+2025-12-05_pl-4et-hr23_Aetna-Life-Insurance-Company_cpt.csv
+
+# Vercel / build artifacts
+.vercel/
+.next/
+dist/
+build/

@@ -1,0 +1,11 @@
+CPT Code,Description,Price
+99213,Office visit established patient,150.00
+99214,Office visit established patient detailed,200.00
+99215,Office visit established patient comprehensive,250.00
+99203,Office visit new patient,180.00
+99204,Office visit new patient detailed,230.00
+99205,Office visit new patient comprehensive,280.00
+80053,Comprehensive metabolic panel,45.00
+85025,Complete blood count,25.00
+36415,Routine venipuncture,15.00
+93000,Electrocardiogram complete,75.00

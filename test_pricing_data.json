@@ -1,0 +1,166 @@
+{
+    "reporting_entity_name": "Test Insurance Provider",
+    "reporting_entity_type": "health insurance issuer",
+    "in_network": [
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "99213",
+            "description": "Office outpatient visit 15 minutes",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 125.50,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "99214",
+            "description": "Office outpatient visit 25 minutes",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 175.00,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "99215",
+            "description": "Office outpatient visit 40 minutes",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 225.00,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "99203",
+            "description": "Office outpatient new patient 30 minutes",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 165.00,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "99204",
+            "description": "Office outpatient new patient 45 minutes",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 210.00,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "99205",
+            "description": "Office outpatient new patient 60 minutes",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 260.00,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "80053",
+            "description": "Comprehensive metabolic panel",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 38.50,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "85025",
+            "description": "Complete blood count with differential",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 22.00,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "36415",
+            "description": "Routine venipuncture",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 12.50,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "billing_code_type": "CPT",
+            "billing_code": "93000",
+            "description": "Electrocardiogram complete",
+            "negotiated_rates": [
+                {
+                    "negotiated_prices": [
+                        {
+                            "negotiated_rate": 68.00,
+                            "billing_class": "professional",
+                            "service_code": []
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
