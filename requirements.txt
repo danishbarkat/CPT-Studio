@@ -4,3 +4,4 @@ requests==2.31.0
 openpyxl==3.1.2
 ijson==3.2.3
 Werkzeug==2.3.8
+vercel-wsgi==0.1.0
