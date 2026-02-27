@@ -1,15 +1,9 @@
 import os
 
-from vercel_wsgi import handle
-
 # Import the Flask app
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from app import app
 
-
-def handler(event, context):
-    """
-    Vercel serverless entrypoint.
-    """
-    # Ensure template folder is discoverable when running from /api
-    os.chdir(os.path.dirname(os.path.dirname(__file__)))
-    return handle(event, context, app)
+# Ensure template folder is discoverable when running from /api
+os.chdir(os.path.dirname(os.path.dirname(__file__)))
