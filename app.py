@@ -88,7 +88,9 @@ class CPTPricingAnalyzer:
     def __init__(self):
         self.data_sources = {}
         self.cpt_pricing = {}  # Store CPT pricing by source
-        self.cache_dir = os.path.join(os.path.dirname(__file__), 'cached_mrf_files')
+        # Use /tmp for serverless environments (like Vercel)
+        base_dir = '/tmp' if os.environ.get('VERCEL') else os.path.dirname(__file__)
+        self.cache_dir = os.path.join(base_dir, 'cached_mrf_files')
         os.makedirs(self.cache_dir, exist_ok=True)
         self.upload_dir = os.path.join(self.cache_dir, 'uploads')
         os.makedirs(self.upload_dir, exist_ok=True)
